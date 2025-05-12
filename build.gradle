@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.17.3'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+intellij {
+    version = '2023.3'
+    type = 'IC'
+}
+
+dependencies {}
+
+compileJava {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}

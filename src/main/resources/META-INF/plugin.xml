@@ -1,0 +1,17 @@
+<idea-plugin>
+    <id>com.example.renameplugin</id>
+    <name>Rename Symbol Plugin</name>
+    <version>1.0</version>
+    <vendor email="you@example.com">Your Name</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <actions>
+        <action id="RenameSymbolAction"
+                class="com.example.RenameSymbolAction"
+                text="Rename Hardcoded Symbol"
+                description="Renames a hardcoded symbol using PSI and refactoring">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
