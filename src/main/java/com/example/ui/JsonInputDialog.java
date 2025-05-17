@@ -12,6 +12,7 @@ import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTabbedPane;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -191,16 +192,7 @@ public class JsonInputDialog extends DialogWrapper {
       }
 
       for (int i = 0; i < config.getOperations().size(); i++) {
-        RenameConfig.RenameOperation op = config.getOperations().get(i);
-        if (op.getFilePath() == null || op.getFilePath().trim().isEmpty()) {
-          throw new IllegalArgumentException("Operation #" + (i+1) + ": filePath is required");
-        }
-        if (op.getNewName() == null || op.getNewName().trim().isEmpty()) {
-          throw new IllegalArgumentException("Operation #" + (i+1) + ": newName is required");
-        }
-        if (op.getLine() < 0) {
-          throw new IllegalArgumentException("Operation #" + (i+1) + ": line must be non-negative");
-        }
+        RenameConfig.RenameOperation op = getRenameOperation(config, i);
         if (op.getColumn() < 0) {
           throw new IllegalArgumentException("Operation #" + (i+1) + ": column must be non-negative");
         }
@@ -208,6 +200,20 @@ public class JsonInputDialog extends DialogWrapper {
     } catch (JsonSyntaxException e) {
       throw new IllegalArgumentException("JSON syntax error: " + e.getMessage());
     }
+  }
+
+  private static RenameConfig.@NotNull RenameOperation getRenameOperation(RenameConfig config, int i) {
+    RenameConfig.RenameOperation op = config.getOperations().get(i);
+    if (op.getFilePath() == null || op.getFilePath().trim().isEmpty()) {
+      throw new IllegalArgumentException("Operation #" + (i +1) + ": filePath is required");
+    }
+    if (op.getNewName() == null || op.getNewName().trim().isEmpty()) {
+      throw new IllegalArgumentException("Operation #" + (i +1) + ": newName is required");
+    }
+    if (op.getLine() < 0) {
+      throw new IllegalArgumentException("Operation #" + (i +1) + ": line must be non-negative");
+    }
+    return op;
   }
 
   public RenameConfig getConfig() {
