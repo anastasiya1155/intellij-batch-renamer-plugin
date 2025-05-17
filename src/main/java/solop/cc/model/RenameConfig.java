@@ -1,4 +1,4 @@
-package com.example.model;
+package solop.cc.model;
 
 import java.util.List;
 

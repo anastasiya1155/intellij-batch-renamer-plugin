@@ -1,7 +1,8 @@
-package com.example;
+package solop.cc;
 
-import com.example.model.RenameConfig;
-import com.example.ui.JsonInputDialog;
+import com.intellij.openapi.project.ProjectUtil;
+import solop.cc.model.RenameConfig;
+import solop.cc.ui.JsonInputDialog;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
@@ -63,7 +64,10 @@ public class RenameSymbolAction extends AnAction {
       if (new File(basePath).isAbsolute()) {
         baseDir = LocalFileSystem.getInstance().findFileByIoFile(new File(basePath));
       } else {
-        baseDir = project.getBaseDir().findFileByRelativePath(basePath);
+        VirtualFile projectDir = ProjectUtil.guessProjectDir(project);
+        if (projectDir != null) {
+          baseDir = projectDir.findFileByRelativePath(basePath);
+        }
       }
 
       if (baseDir == null || !baseDir.isDirectory()) {
@@ -124,7 +128,7 @@ public class RenameSymbolAction extends AnAction {
     if (new File(filePath).isAbsolute()) {
       vf = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
     } else {
-      VirtualFile projectDir = project.getBaseDir();
+      VirtualFile projectDir = ProjectUtil.guessProjectDir(project);
       if (projectDir == null) {
         System.out.println("Cannot resolve project directory for relative path: " + filePath);
         return false;

@@ -1,14 +1,15 @@
 <idea-plugin>
-    <id>com.example.batchrenamerplugin</id>
+    <id>solop.cc.batchrenamerplugin</id>
     <name>Batch Renamer</name>
     <version>1.0</version>
     <vendor email="anastasiya1155@gmail.com">Anastasiia Solop</vendor>
+    <description>A plugin allows you to rename symbols across your codebase using a simple JSON configuration.</description>
 
     <depends>com.intellij.modules.platform</depends>
 
     <actions>
         <action id="BatchRenameSymbolsAction"
-                class="com.example.RenameSymbolAction"
+                class="solop.cc.RenameSymbolAction"
                 text="Batch Rename Symbols"
                 description="Renames symbols in the project using JSON config">
             <add-to-group group-id="ToolsMenu" anchor="last"/>

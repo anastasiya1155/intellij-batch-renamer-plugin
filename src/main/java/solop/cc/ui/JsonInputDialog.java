@@ -1,6 +1,8 @@
-package com.example.ui;
+package solop.cc.ui;
 
-import com.example.model.RenameConfig;
+import com.intellij.ui.JBColor;
+import com.intellij.ui.components.JBScrollPane;
+import solop.cc.model.RenameConfig;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.intellij.openapi.fileChooser.FileChooser;
@@ -42,7 +44,7 @@ public class JsonInputDialog extends DialogWrapper {
     JPanel panel = new JPanel(new BorderLayout());
 
     validationMessageLabel = new JBLabel();
-    validationMessageLabel.setForeground(Color.RED);
+    validationMessageLabel.setForeground(JBColor.RED);
 
     tabbedPane = new JBTabbedPane();
     tabbedPane.addChangeListener(e -> validateInput());
@@ -81,7 +83,7 @@ public class JsonInputDialog extends DialogWrapper {
       }
     });
 
-    JScrollPane scrollPane = new JScrollPane(jsonTextArea);
+    JScrollPane scrollPane = new JBScrollPane(jsonTextArea);
     scrollPane.setPreferredSize(new Dimension(400, 300));
 
     jsonInputPanel.add(new JLabel("Paste your JSON configuration:"), BorderLayout.NORTH);
