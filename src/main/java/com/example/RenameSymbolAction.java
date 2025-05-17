@@ -55,8 +55,33 @@ public class RenameSymbolAction extends AnAction {
       return;
     }
 
+    String basePath = config.getBasePath();
+    VirtualFile baseDir = null;
+
+    if (basePath != null && !basePath.isEmpty()) {
+      if (new File(basePath).isAbsolute()) {
+        baseDir = LocalFileSystem.getInstance().findFileByIoFile(new File(basePath));
+      } else {
+        baseDir = project.getBaseDir().findFileByRelativePath(basePath);
+      }
+
+      if (baseDir == null || !baseDir.isDirectory()) {
+        Messages.showErrorDialog(project, "Base path not found or not a directory: " + basePath, "Error");
+        return;
+      }
+    }
+
     for (RenameConfig.RenameOperation op : config.getOperations()) {
-      renameSymbol(project, op.getFilePath(), op.getLine(), op.getColumn(), op.getNewName());
+      String filePath = op.getFilePath();
+
+      if (baseDir != null && !new File(filePath).isAbsolute()) {
+        VirtualFile targetFile = baseDir.findFileByRelativePath(filePath);
+        if (targetFile != null) {
+          filePath = targetFile.getPath();
+        }
+      }
+
+      renameSymbol(project, filePath, op.getLine(), op.getColumn(), op.getNewName());
     }
 
     Messages.showInfoMessage(project,

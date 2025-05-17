@@ -16,7 +16,12 @@ public class RenameConfig {
     public String getNewName() { return newName; }
   }
 
+  private String basePath;
   private List<RenameOperation> operations;
+
+  public String getBasePath() {
+    return basePath;
+  }
 
   public List<RenameOperation> getOperations() {
     return operations;
