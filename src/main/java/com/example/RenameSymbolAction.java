@@ -65,7 +65,19 @@ public class RenameSymbolAction extends AnAction {
   }
 
   private void renameSymbol(Project project, String filePath, int line, int column, String newName) {
-    VirtualFile vf = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
+    VirtualFile vf;
+
+    if (new File(filePath).isAbsolute()) {
+      vf = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
+    } else {
+      VirtualFile projectDir = project.getBaseDir();
+      if (projectDir == null) {
+        System.out.println("Cannot resolve project directory for relative path: " + filePath);
+        return;
+      }
+      vf = projectDir.findFileByRelativePath(filePath);
+    }
+
     if (vf == null) {
       System.out.println("File not found: " + filePath);
       return;
