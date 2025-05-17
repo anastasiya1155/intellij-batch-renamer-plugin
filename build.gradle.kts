@@ -36,6 +36,16 @@ intellijPlatform {
       Initial version
     """.trimIndent()
     }
+    
+    signing {
+        certificateChainFile = file("chain.crt")
+        privateKeyFile = file("private.pem")
+        password = System.getenv("PRIVATE_KEY_PASSWORD")
+    }
+    
+    publishing {
+        token = System.getenv("PUBLISH_TOKEN")
+    }
 }
 
 tasks {
