@@ -28,12 +28,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action to rename symbols across the project using JSON configuration.
+ * <p>
+ * This action displays a dialog for entering JSON configuration which specifies
+ * rename operations by file path, line, and column coordinates.
+ * </p>
+ */
 public class RenameSymbolAction extends AnAction {
   @Override
   public void actionPerformed(AnActionEvent e) {
     Project project = e.getProject();
     if (project == null) return;
 
+    // Show the JSON configuration dialog
+    showJsonConfigDialog(project);
+  }
+
+  private void showJsonConfigDialog(Project project) {
     JsonInputDialog dialog = new JsonInputDialog(project);
     if (!dialog.showAndGet()) {
       return; // User cancelled
@@ -122,6 +134,25 @@ public class RenameSymbolAction extends AnAction {
     });
   }
 
+
+  /**
+   * Renames a specific PsiNamedElement
+   */
+  private boolean renameSymbolElement(Project project, PsiNamedElement element, String newName) {
+    boolean[] success = new boolean[1];
+    WriteCommandAction.runWriteCommandAction(project, () -> {
+      try {
+        RenameProcessor processor = new RenameProcessor(project, element, newName, false, false);
+        processor.run();
+        success[0] = true;
+      } catch (Exception e) {
+        success[0] = false;
+      }
+    });
+
+    return success[0];
+  }
+
   private boolean renameSymbol(Project project, String filePath, int line, int column, String newName) {
     VirtualFile vf;
 
@@ -160,17 +191,6 @@ public class RenameSymbolAction extends AnAction {
       return false;
     }
 
-    boolean[] success = new boolean[1];
-    WriteCommandAction.runWriteCommandAction(project, () -> {
-      try {
-        RenameProcessor processor = new RenameProcessor(project, namedElement, newName, false, false);
-        processor.run();
-        success[0] = true;
-      } catch (Exception e) {
-        success[0] = false;
-      }
-    });
-
-    return success[0];
+    return renameSymbolElement(project, namedElement, newName);
   }
 }

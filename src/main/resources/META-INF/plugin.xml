@@ -6,6 +6,7 @@
     <description>A plugin allows you to rename symbols across your codebase using a simple JSON configuration.</description>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
     <actions>
         <action id="BatchRenameSymbolsAction"
@@ -13,6 +14,15 @@
                 text="Batch Rename Symbols"
                 description="Renames symbols in the project using JSON config">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+
+        <action id="RenameFileSymbolsAction"
+                class="solop.cc.RenameFileSymbolsAction"
+                text="Rename Symbols in File"
+                description="Rename symbols in the current file">
+            <add-to-group group-id="RefactoringMenu" anchor="after" relative-to-action="ChangeSignature"/>
+            <add-to-group group-id="EditorTabPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt R"/>
         </action>
     </actions>
 </idea-plugin>

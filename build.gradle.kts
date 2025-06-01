@@ -1,3 +1,6 @@
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.models.ProductRelease
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.25"
@@ -5,7 +8,7 @@ plugins {
 }
 
 group = "optimist"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -21,8 +24,8 @@ dependencies {
         create("IC", "2024.2.5")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
 
-        // Add necessary plugin dependencies for compilation here, example:
-        // bundledPlugin("com.intellij.java")
+        // Add necessary plugin dependencies for compilation
+        bundledPlugin("com.intellij.java")
     }
 }
 
@@ -30,6 +33,7 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "242"
+            untilBuild = provider { null }
         }
 
         changeNotes = """
@@ -45,6 +49,19 @@ intellijPlatform {
     
     publishing {
         token = System.getenv("PUBLISH_TOKEN")
+    }
+    
+    pluginVerification {
+        ides {
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2")
+            recommended()
+            select {
+                types = listOf(IntelliJPlatformType.PhpStorm)
+                channels = listOf(ProductRelease.Channel.RELEASE)
+                sinceBuild = "242"
+                untilBuild = provider { null }
+            }
+        }
     }
 }
 

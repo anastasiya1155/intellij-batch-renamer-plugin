@@ -4,6 +4,13 @@ A powerful IntelliJ IDEA plugin that allows you to rename symbols across your co
 
 ## Features
 
+- **Two Renaming Modes**:
+  - Rename all symbols in the current file with a user-friendly dialog
+  - Batch rename across the project using JSON configuration
+- **Symbol Type Detection**: Automatically identifies classes, methods, fields, etc.
+- **Symbol Search**: Filter symbols by name to quickly find what you need
+- **Bulk Operations**: Find/replace patterns across multiple symbols at once
+- **Copy Symbols**: Easily copy symbol names to clipboard for use in other tools
 - **JSON-based Configuration**: Define multiple rename operations in a single JSON file
 - **Two Input Methods**: Either paste JSON directly or select a JSON configuration file
 - **Relative Path Support**: Use project-relative paths for better portability
@@ -28,6 +35,24 @@ A powerful IntelliJ IDEA plugin that allows you to rename symbols across your co
 4. Select the downloaded `.jar` file
 
 ## Usage
+
+### Rename Symbols in Current File
+
+There are multiple ways to access this feature:
+
+1. Open a file in the editor, then either:
+   - Select `Refactor → Rename Symbols in File` from the main menu
+   - Right-click in the editor and select `Rename Symbols in File` from the context menu
+   - Right-click on the file's editor tab and select `Rename Symbols in File`
+   - Right-click on the file in the Project view and select `Rename Symbols in File`
+   - Use the keyboard shortcut `Shift+Ctrl+Alt+R`
+2. The plugin will display a dialog with all symbols in the file
+3. Enter new names for the symbols you want to rename
+4. Use the search box to filter symbols
+5. Use the "Bulk Find/Replace" button to perform pattern-based renaming
+6. Click "OK" to apply the changes
+
+### Batch Rename Across Project (JSON-based)
 
 1. Open your project in IntelliJ IDEA
 2. Select `Tools → Batch Renamer` from the menu
